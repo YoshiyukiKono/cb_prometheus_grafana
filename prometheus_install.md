@@ -7,6 +7,7 @@ cd prometheus-2.20.1.linux-amd64
 
 
 ```
+scrape_configs:
  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
  - job_name: 'couchbase'
  
