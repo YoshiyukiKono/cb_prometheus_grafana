@@ -22,3 +22,11 @@ INFO[0000] starting couchbase-exporter 1.6.0...          source="main.go:38"
 INFO[0000] server listening on :9420                     source="main.go:69"
 WARN[0000] couchbase 6.6.0-7909-enterprise is not fully supported  source="couchbase.go:38"
 ```
+
+```
+./couchbase-exporter --couchbase.username Administrator --couchbase.password couchbase --web.listen-address=":9421" --couchbase.url="http://localhost:8091"
+couchbase.url="http://localhost:8091"
+INFO[0000] starting couchbase-exporter 1.6.0...          source="main.go:38"
+INFO[0000] server listening on :9420                     source="main.go:69"
+WARN[0000] couchbase 6.6.0-7909-enterprise is not fully supported  source="couchbase.go:38"
+```
