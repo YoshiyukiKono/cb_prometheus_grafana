@@ -163,3 +163,13 @@ Directory permission is needed for the current user to register the application.
 REML0693:~ yoshiyuki.kono$ 
 
 ```
+
+```
+REML0693:~ yoshiyuki.kono$ az aks install-cli
+Downloading client to "/usr/local/bin/kubectl" from "https://storage.googleapis.com/kubernetes-release/release/v1.19.0/bin/darwin/amd64/kubectl"
+Please ensure that /usr/local/bin is in your search PATH, so the `kubectl` command can be found.
+Downloading client to "/var/folders/d7/9kcy9b615hs7pvfsbrsx84yc0000gp/T/tmp1fun0g6x/kubelogin.zip" from "https://github.com/Azure/kubelogin/releases/download/v0.0.5/kubelogin.zip"
+Please ensure that /usr/local/bin is in your search PATH, so the `kubelogin` command can be found.
+REML0693:~ yoshiyuki.kono$ az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
+The Resource 'Microsoft.ContainerService/managedClusters/myAKSCluster' under resource group 'myResourceGroup' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix
+```
