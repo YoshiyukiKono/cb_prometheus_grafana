@@ -167,6 +167,11 @@ kubectl --namespace monitoring port-forward svc/node-exporter 9100 &
 kubectl --namespace default port-forward svc/couchbase-metrics 9091 &
 ```
 
+
+```
+error: unable to listen on any of the requested ports: [{9091 9091}]
+```
+
 Get "http://10.8.0.65:9091/metrics": dial tcp 10.8.0.65:9091: connect: connection refused
 
 https://github.com/prometheus/prometheus/issues/4419
