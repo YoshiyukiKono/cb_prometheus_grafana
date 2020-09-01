@@ -119,3 +119,59 @@ monitoring    prometheus-operator            ClusterIP   None           <none>  
 REML0693:kube-prometheus yoshiyuki.kono$  
 
 ```
+
+
+```
+REML0693:kube-prometheus yoshiyuki.kono$  kubectl logs -f deployments/prometheus-operator -n monitoring prometheus-operator
+ts=2020-09-01T04:25:14.124295801Z caller=main.go:218 msg="Starting Prometheus Operator version '0.41.1'."
+ts=2020-09-01T04:25:14.130724919Z caller=main.go:104 msg="Starting insecure server on [::]:8080"
+level=info ts=2020-09-01T04:25:14.222198778Z caller=operator.go:495 component=prometheusoperator msg="connection established" cluster-version=v1.18.6
+level=info ts=2020-09-01T04:25:14.222231578Z caller=operator.go:504 component=prometheusoperator msg="CRD API endpoints ready"
+level=info ts=2020-09-01T04:25:14.222298378Z caller=operator.go:202 component=alertmanageroperator msg="connection established" cluster-version=v1.18.6
+level=info ts=2020-09-01T04:25:14.222313178Z caller=operator.go:211 component=alertmanageroperator msg="CRD API endpoints ready"
+level=info ts=2020-09-01T04:25:14.222369378Z caller=operator.go:298 component=thanosoperator msg="connection established" cluster-version=v1.18.6
+level=info ts=2020-09-01T04:25:14.222381678Z caller=operator.go:307 component=thanosoperator msg="CRD API endpoints ready"
+level=info ts=2020-09-01T04:25:14.527066539Z caller=operator.go:259 component=thanosoperator msg="successfully synced all caches"
+level=info ts=2020-09-01T04:25:14.52720264Z caller=operator.go:173 component=alertmanageroperator msg="successfully synced all caches"
+level=info ts=2020-09-01T04:25:14.627690124Z caller=operator.go:436 component=prometheusoperator msg="successfully synced all caches"
+level=info ts=2020-09-01T04:25:31.941455336Z caller=operator.go:429 component=alertmanageroperator msg="sync alertmanager" key=monitoring/main
+level=info ts=2020-09-01T04:25:32.021935163Z caller=operator.go:429 component=alertmanageroperator msg="sync alertmanager" key=monitoring/main
+level=info ts=2020-09-01T04:25:32.135994386Z caller=operator.go:429 component=alertmanageroperator msg="sync alertmanager" key=monitoring/main
+level=info ts=2020-09-01T04:25:32.162128759Z caller=operator.go:429 component=alertmanageroperator msg="sync alertmanager" key=monitoring/main
+level=info ts=2020-09-01T04:25:39.124470922Z caller=operator.go:429 component=alertmanageroperator msg="sync alertmanager" key=monitoring/main
+level=info ts=2020-09-01T04:25:39.152498702Z caller=operator.go:429 component=alertmanageroperator msg="sync alertmanager" key=monitoring/main
+level=info ts=2020-09-01T04:25:40.187095123Z caller=operator.go:429 component=alertmanageroperator msg="sync alertmanager" key=monitoring/main
+level=info ts=2020-09-01T04:25:40.214700501Z caller=operator.go:429 component=alertmanageroperator msg="sync alertmanager" key=monitoring/main
+level=info ts=2020-09-01T04:25:43.045306894Z caller=operator.go:429 component=alertmanageroperator msg="sync alertmanager" key=monitoring/main
+level=info ts=2020-09-01T04:25:43.079521191Z caller=operator.go:429 component=alertmanageroperator msg="sync alertmanager" key=monitoring/main
+level=info ts=2020-09-01T04:25:46.332155375Z caller=operator.go:1203 component=prometheusoperator msg="sync prometheus" key=monitoring/k8s
+level=info ts=2020-09-01T04:25:46.466292554Z caller=operator.go:1203 component=prometheusoperator msg="sync prometheus" key=monitoring/k8s
+level=info ts=2020-09-01T04:25:46.566475136Z caller=operator.go:1203 component=prometheusoperator msg="sync prometheus" key=monitoring/k8s
+level=info ts=2020-09-01T04:25:47.948022837Z caller=operator.go:1203 component=prometheusoperator msg="sync prometheus" key=monitoring/k8s
+level=info ts=2020-09-01T04:25:48.252152796Z caller=operator.go:1203 component=prometheusoperator msg="sync prometheus" key=monitoring/k8s
+level=info ts=2020-09-01T04:25:48.808938368Z caller=operator.go:1203 component=prometheusoperator msg="sync prometheus" key=monitoring/k8s
+level=info ts=2020-09-01T04:25:48.970734225Z caller=operator.go:1203 component=prometheusoperator msg="sync prometheus" key=monitoring/k8s
+level=info ts=2020-09-01T04:25:49.17808491Z caller=operator.go:1203 component=prometheusoperator msg="sync prometheus" key=monitoring/k8s
+level=info ts=2020-09-01T04:25:49.391271612Z caller=operator.go:1203 component=prometheusoperator msg="sync prometheus" key=monitoring/k8s
+level=info ts=2020-09-01T04:25:49.569973216Z caller=operator.go:1203 component=prometheusoperator msg="sync prometheus" key=monitoring/k8s
+level=info ts=2020-09-01T04:25:49.769952181Z caller=operator.go:1203 component=prometheusoperator msg="sync prometheus" key=monitoring/k8s
+level=info ts=2020-09-01T04:25:59.956522937Z caller=operator.go:1203 component=prometheusoperator msg="sync prometheus" key=monitoring/k8s
+level=info ts=2020-09-01T04:26:01.761338331Z caller=operator.go:1203 component=prometheusoperator msg="sync prometheus" key=monitoring/k8s
+```
+```
+kubectl --namespace default port-forward svc/cb-example 8091 &
+kubectl --namespace monitoring port-forward svc/prometheus-k8s 9090 &
+kubectl --namespace monitoring port-forward svc/grafana 3000 &
+kubectl --namespace monitoring port-forward svc/alertmanager-main 9093 &
+kubectl --namespace monitoring port-forward svc/node-exporter 9100 &
+kubectl --namespace default port-forward svc/couchbase-metrics 9091 &
+```
+
+Get "http://10.8.0.65:9091/metrics": dial tcp 10.8.0.65:9091: connect: connection refused
+
+https://github.com/prometheus/prometheus/issues/4419
+
+> We have debugged it offline and the problem was the network.
+Running the Prometheus container with "--network=host" solved the issue.
+
+
