@@ -173,3 +173,126 @@ Please ensure that /usr/local/bin is in your search PATH, so the `kubelogin` com
 REML0693:~ yoshiyuki.kono$ az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
 The Resource 'Microsoft.ContainerService/managedClusters/myAKSCluster' under resource group 'myResourceGroup' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix
 ```
+
+
+```
+REML0693:Work yoshiyuki.kono$ subnet_id=$(az network vnet show -g myResourceGroup -n myAKSVnet --query subnets[].id -o tsv)
+REML0693:Work yoshiyuki.kono$ az aks create -g myResourceGroup -n myAKSCluster --enable-managed-identity --node-count 3  --vnet-subnet-id $subnet_id --service-cidr 10.0.0.0/16 --dns-service-ip 10.0.0.10 --generate-ssh-keys   --location eastus  --network-plugin azure  --kubernetes-version 1.18.6
+The cluster is an MSI cluster, please manually grant Network Contributor role to the system assigned identity after the cluster is created, see https://docs.microsoft.com/en-us/azure/aks/use-managed-identity
+{- Finished ..
+  "aadProfile": null,
+  "addonProfiles": {
+    "KubeDashboard": {
+      "config": null,
+      "enabled": false,
+      "identity": null
+    }
+  },
+  "agentPoolProfiles": [
+    {
+      "availabilityZones": null,
+      "count": 3,
+      "enableAutoScaling": null,
+      "enableNodePublicIp": false,
+      "maxCount": null,
+      "maxPods": 30,
+      "minCount": null,
+      "mode": "System",
+      "name": "nodepool1",
+      "nodeLabels": {},
+      "nodeTaints": null,
+      "orchestratorVersion": "1.18.6",
+      "osDiskSizeGb": 128,
+      "osType": "Linux",
+      "provisioningState": "Succeeded",
+      "scaleSetEvictionPolicy": null,
+      "scaleSetPriority": null,
+      "spotMaxPrice": null,
+      "tags": null,
+      "type": "VirtualMachineScaleSets",
+      "vmSize": "Standard_DS2_v2",
+      "vnetSubnetId": "/subscriptions/f855d6ab-cda7-485b-8360-7146658961e2/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myAKSVnet/subnets/myAKSSubnet"
+    }
+  ],
+  "apiServerAccessProfile": null,
+  "autoScalerProfile": null,
+  "diskEncryptionSetId": null,
+  "dnsPrefix": "myAKSClust-myResourceGroup-f855d6",
+  "enablePodSecurityPolicy": null,
+  "enableRbac": true,
+  "fqdn": "myaksclust-myresourcegroup-f855d6-537e13cf.hcp.eastus.azmk8s.io",
+  "id": "/subscriptions/f855d6ab-cda7-485b-8360-7146658961e2/resourcegroups/myResourceGroup/providers/Microsoft.ContainerService/managedClusters/myAKSCluster",
+  "identity": {
+    "principalId": "27be11e4-6a73-4249-8fb7-d8d50baa623e",
+    "tenantId": "897b2d61-f537-4fde-bc07-520be26839d8",
+    "type": "SystemAssigned"
+  },
+  "identityProfile": {
+    "kubeletidentity": {
+      "clientId": "93d0b26d-7a2f-47a2-98f2-65876b781bad",
+      "objectId": "ce5cd7e7-efb3-4a2d-83b3-097cbb0205f1",
+      "resourceId": "/subscriptions/f855d6ab-cda7-485b-8360-7146658961e2/resourcegroups/MC_myResourceGroup_myAKSCluster_eastus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myAKSCluster-agentpool"
+    }
+  },
+  "kubernetesVersion": "1.18.6",
+  "linuxProfile": {
+    "adminUsername": "azureuser",
+    "ssh": {
+      "publicKeys": [
+        {
+          "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDVqR5jolvnP4KDVyj948+jBOzje8rMtahcOWTkzFmPTKTt6GrgYSxT6Z1raLQrWwxGa3IFrJ+jQarcr8kde0Tr0v6PJcLjryRiilYhZu3Zvs2u+BjX0nEVv8rQ7HJAuLIvLq141U8dOecnCmrqKdGopni1xmmDALuv+ies/IMsvikP7pKOGRC8KGfUtOPnyNJ7EY65h4LO+cOT9AyikX36dBvWvs0sdmWfanj0d2pqe8cfaEiL8801Um46HNtO1JH9aVTizS6oFyD0YKqcbT4g1QgD/PpogLg5Ke0qFMp14E1Ld5tt+qkrsF5lkc4jSOyqmE9iL5QKN1Sr0TIVJJRA/P2GVn0jdLsbmDfDBek35gu+BtNaXggyJpoN9FLDnd8ta1mmYu3NQ9oTacoMwfAmDNtOFjfG9ZRY/C2jD8y64Tvdkb2AN3CBe4/uQD0JMzG6/oqBYLM/kH9Q20283TksxTBa9OdAg3A5aZ7ApmkzzyDpuu4/idePYYjI1FwHtD0= yoshiyuki.kono@REML0693\n"
+        }
+      ]
+    }
+  },
+  "location": "eastus",
+  "maxAgentPools": 10,
+  "name": "myAKSCluster",
+  "networkProfile": {
+    "dnsServiceIp": "10.0.0.10",
+    "dockerBridgeCidr": "172.17.0.1/16",
+    "loadBalancerProfile": {
+      "allocatedOutboundPorts": null,
+      "effectiveOutboundIps": [
+        {
+          "id": "/subscriptions/f855d6ab-cda7-485b-8360-7146658961e2/resourceGroups/MC_myResourceGroup_myAKSCluster_eastus/providers/Microsoft.Network/publicIPAddresses/0fe37d3c-87e9-42db-9bd0-e2a14173784c",
+          "resourceGroup": "MC_myResourceGroup_myAKSCluster_eastus"
+        }
+      ],
+      "idleTimeoutInMinutes": null,
+      "managedOutboundIps": {
+        "count": 1
+      },
+      "outboundIpPrefixes": null,
+      "outboundIps": null
+    },
+    "loadBalancerSku": "Standard",
+    "networkMode": null,
+    "networkPlugin": "azure",
+    "networkPolicy": null,
+    "outboundType": "loadBalancer",
+    "podCidr": null,
+    "serviceCidr": "10.0.0.0/16"
+  },
+  "nodeResourceGroup": "MC_myResourceGroup_myAKSCluster_eastus",
+  "privateFqdn": null,
+  "provisioningState": "Succeeded",
+  "resourceGroup": "myResourceGroup",
+  "servicePrincipalProfile": {
+    "clientId": "msi",
+    "secret": null
+  },
+  "sku": {
+    "name": "Basic",
+    "tier": "Free"
+  },
+  "tags": null,
+  "type": "Microsoft.ContainerService/ManagedClusters",
+  "windowsProfile": {
+    "adminPassword": null,
+    "adminUsername": "azureuser"
+  }
+}
+REML0693:Work yoshiyuki.kono$ 
+```
+```
