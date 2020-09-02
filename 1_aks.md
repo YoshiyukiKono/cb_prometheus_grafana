@@ -33,6 +33,10 @@ $ az network vnet create -g <myResourceGroup> -n <myAKSVnet>  --address-prefix 1
 ```
 $ subnet_id=$(az network vnet show -g <myResourceGroup> -n <myAKSVnet> --query subnets[].id -o tsv)
 ```
+Check the latest version
+```
+$ az aks get-versions --location eastus --query orchestrators[].orchestratorVersion -o tsv
+```
 Use `--enable-managed-identity` to avoid the Service Principal error.
 ```
 $ az aks create -g <myResourceGroup> -n <myAKSCluster> --enable-managed-identity --node-count 3  --vnet-subnet-id $subnet_id --service-cidr 10.0.0.0/16 --dns-service-ip 10.0.0.10 --generate-ssh-keys   --location eastus  --network-plugin azure  --kubernetes-version 1.18.6
