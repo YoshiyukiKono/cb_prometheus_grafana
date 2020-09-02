@@ -1,5 +1,6 @@
 
 https://docs.couchbase.com/operator/current/howto-ui.html
+https://docs.couchbase.com/operator/current/howto-ui.html
 
 ```
 REML0693:AKS yoshiyuki.kono$ kubectl create -f crd.yaml
