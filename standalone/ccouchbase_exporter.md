@@ -1,3 +1,5 @@
+Note: Couchbase Exporterを利用したPrometeus連携は、サーバーへのインストールでは、成功した。一方、Autonomous Operatorを使った場合、YAMLファイルにmonitoringセクションを加えることで連携ができることが確認できた。（関連性要確認）
+
 https://github.com/totvslabs/couchbase-exporter/releases
 ```
 curl -OL https://github.com/totvslabs/couchbase-exporter/releases/download/v1.6.0/couchbase-exporter_1.6.0_linux_amd64.tar.gz
