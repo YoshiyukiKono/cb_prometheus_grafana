@@ -21,3 +21,10 @@ Forwarding from [::1]:9090 -> 9090
 Forwarding from 127.0.0.1:9091 -> 9091
 Forwarding from [::1]:9091 -> 9091
 ```
+
+## UI
+- [Couchbase Server](http://localhost:8091)
+- [Prometheus Targets](http://localhost:9090/targets)
+- [Prometheus Metrics](http://localhost:9091/graph)
+- [Couchbase Metrics](http://localhost:9091/metrics)
+- [Grafana](http://localhost:3000)
