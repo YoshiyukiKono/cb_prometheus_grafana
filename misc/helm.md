@@ -1,3 +1,5 @@
+Note: Helmの最新版で、RBACが実装されたため、Tillerをセットアップする手順は不要になった。（出所要確認）
+
 https://qiita.com/reoring/items/e50877f543bed72d93ee
 
 ```
