@@ -8,62 +8,35 @@ https://blog.couchbase.com/step-by-step-guide-for-running-couchbase-autonomous-o
 $ git clone https://github.com/prometheus-operator/kube-prometheus.git
 ```
 
-```
-$ cd kube-prometheus/manifests
-couchbase-serviceMonitor.yaml
-```
+## Create the Couchbase ServiceMonitor
 
-```
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: couchbase
-  namespace: default # <1>
-  labels:
-    app: couchbase
-spec:
-  endpoints:
-  - port: metrics       # <2>
-    interval: 5s        # <3>
-  namespaceSelector:
-    matchNames:
-    - default # <4>
-  selector:
-    matchLabels:
-      app: couchbase # <5>
-```
-```
-vi couchbase-service.yaml
-```
+Create the following yaml files (refer to [yaml](./yaml) 
 
-```
-apiVersion: v1
-kind: Service
-metadata:
-  name: couchbase-metrics
-  namespace: default # <1>
-  labels:
-    app: couchbase
-spec:
-  ports:
-  - name: metrics
-    port: 9091 # <2>
-    protocol: TCP
-  selector:
-    app: couchbase
-    couchbase_cluster: cb-example # <3>
-```
+- kube-prometheus/manifests/couchbase-serviceMonitor.yaml
+
+## Create the Couchbase Metrics Service
+
+Create the following yaml files (refer to [yaml](./yaml) 
+
+- kube-prometheus/manifests/couchbase-service.yaml
+
+
+## Create the Kubernetes namespace and CRDs
 
 ```
 $ kubectl create -f manifests/setup
 ```
 
+## Create the Kubernetes namespace and CRDs
+
 ```
 $ kubectl create -f manifests/
 ```
 
+## Check Namespaces
+
 ```
-REML0693:kube-prometheus yoshiyuki.kono$ kubectl get pods -n monitoring
+$ kubectl get pods -n monitoring
 NAME                                  READY   STATUS    RESTARTS   AGE
 alertmanager-main-0                   2/2     Running   0          2m19s
 alertmanager-main-1                   2/2     Running   0          2m19s
@@ -80,7 +53,7 @@ prometheus-operator-8ff9cc68-khx96    2/2     Running   0          2m41s
 ```
 
 ```
-REML0693:kube-prometheus yoshiyuki.kono$ kubectl get servicemonitors --all-namespaces
+$ kubectl get servicemonitors --all-namespaces
  
 NAMESPACE    NAME                      AGE
 default      couchbase                 2m56s
@@ -97,9 +70,10 @@ monitoring   prometheus                2m41s
 monitoring   prometheus-adapter        2m44s
 monitoring   prometheus-operator       2m43s
 ```
+## Check Services
 
 ```
-REML0693:kube-prometheus yoshiyuki.kono$ kubectl get svc --all-namespaces
+$ kubectl get svc --all-namespaces
 NAMESPACE     NAME                           TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   AGE
 default       cb-example                     ClusterIP   None           <none>        4369/TCP,8091/TCP,8092/TCP,8093/TCP,8094/TCP,8095/TCP,8096/TCP,9100/TCP,9101/TCP,9102/TCP,9103/TCP,9104/TCP,9105/TCP,9110/TCP,9111/TCP,9112/TCP,9113/TCP,9114/TCP,9115/TCP,9116/TCP,9117/TCP,9118/TCP,9120/TCP,9121/TCP,9122/TCP,9999/TCP,11207/TCP,11209/TCP,11210/TCP,11211/TCP,11213/TCP,18091/TCP,18092/TCP,18093/TCP,18094/TCP,18095/TCP,18096/TCP,21100/TCP,21101/TCP,21102/TCP,21103/TCP,21104/TCP,21105/TCP,21106/TCP,21107/TCP,21108/TCP,21109/TCP,21110/TCP,21111/TCP,21112/TCP,21113/TCP,21114/TCP,21115/TCP,21116/TCP,21117/TCP,21118/TCP,21119/TCP,21120/TCP,21121/TCP,21122/TCP,21123/TCP,21124/TCP,21125/TCP,21126/TCP,21127/TCP,21128/TCP,21129/TCP,21130/TCP,21131/TCP,21132/TCP,21133/TCP,21134/TCP,21135/TCP,21136/TCP,21137/TCP,21138/TCP,21139/TCP,21140/TCP,21141/TCP,21142/TCP,21143/TCP,21144/TCP,21145/TCP,21146/TCP,21147/TCP,21148/TCP,21149/TCP,21150/TCP,21151/TCP,21152/TCP,21153/TCP,21154/TCP,21155/TCP,21156/TCP,21157/TCP,21158/TCP,21159/TCP,21160/TCP,21161/TCP,21162/TCP,21163/TCP,21164/TCP,21165/TCP,21166/TCP,21167/TCP,21168/TCP,21169/TCP,21170/TCP,21171/TCP,21172/TCP,21173/TCP,21174/TCP,21175/TCP,21176/TCP,21177/TCP,21178/TCP,21179/TCP,21180/TCP,21181/TCP,21182/TCP,21183/TCP,21184/TCP,21185/TCP,21186/TCP,21187/TCP,21188/TCP,21189/TCP,21190/TCP,21191/TCP,21192/TCP,21193/TCP,21194/TCP,21195/TCP,21196/TCP,21197/TCP,21198/TCP,21199/TCP,21200/TCP,21201/TCP,21202/TCP,21203/TCP,21204/TCP,21205/TCP,21206/TCP,21207/TCP,21208/TCP,21209/TCP,21210/TCP,21211/TCP,21212/TCP,21213/TCP,21214/TCP,21215/TCP,21216/TCP,21217/TCP,21218/TCP,21219/TCP,21220/TCP,21221/TCP,21222/TCP,21223/TCP,21224/TCP,21225/TCP,21226/TCP,21227/TCP,21228/TCP,21229/TCP,21230/TCP,21231/TCP,21232/TCP,21233/TCP,21234/TCP,21235/TCP,21236/TCP,21237/TCP,21238/TCP,21239/TCP,21240/TCP,21241/TCP,21242/TCP,21243/TCP,21244/TCP,21245/TCP,21246/TCP,21247/TCP,21248/TCP,21249/TCP,21250/TCP,21251/TCP,21252/TCP,21253/TCP,21254/TCP,21255/TCP,21256/TCP,21257/TCP,21258/TCP,21259/TCP,21260/TCP,21261/TCP,21262/TCP,21263/TCP,21264/TCP,21265/TCP,21266/TCP,21267/TCP,21268/TCP,21269/TCP,21270/TCP,21271/TCP,21272/TCP,21273/TCP,21274/TCP,21275/TCP,21276/TCP,21277/TCP,21278/TCP,21279/TCP,21280/TCP,21281/TCP,21282/TCP,21283/TCP,21284/TCP,21285/TCP,21286/TCP,21287/TCP,21288/TCP,21289/TCP,21290/TCP,21291/TCP,21292/TCP,21293/TCP,21294/TCP,21295/TCP,21296/TCP,21297/TCP,21298/TCP,21299/TCP   138m
 default       cb-example-srv                 ClusterIP   None           <none>        11210/TCP,11207/TCP                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       138m
@@ -120,13 +94,11 @@ monitoring    prometheus-adapter             ClusterIP   10.0.125.71    <none>  
 monitoring    prometheus-k8s                 ClusterIP   10.0.167.155   <none>        9090/TCP                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  6m3s
 monitoring    prometheus-operated            ClusterIP   None           <none>        9090/TCP                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  3m12s
 monitoring    prometheus-operator            ClusterIP   None           <none>        8443/TCP                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  3m50s
-REML0693:kube-prometheus yoshiyuki.kono$  
-
 ```
 
-
+## Check Logs
 ```
-REML0693:kube-prometheus yoshiyuki.kono$  kubectl logs -f deployments/prometheus-operator -n monitoring prometheus-operator
+$  kubectl logs -f deployments/prometheus-operator -n monitoring prometheus-operator
 ts=2020-09-01T04:25:14.124295801Z caller=main.go:218 msg="Starting Prometheus Operator version '0.41.1'."
 ts=2020-09-01T04:25:14.130724919Z caller=main.go:104 msg="Starting insecure server on [::]:8080"
 level=info ts=2020-09-01T04:25:14.222198778Z caller=operator.go:495 component=prometheusoperator msg="connection established" cluster-version=v1.18.6
@@ -162,6 +134,8 @@ level=info ts=2020-09-01T04:25:49.769952181Z caller=operator.go:1203 component=p
 level=info ts=2020-09-01T04:25:59.956522937Z caller=operator.go:1203 component=prometheusoperator msg="sync prometheus" key=monitoring/k8s
 level=info ts=2020-09-01T04:26:01.761338331Z caller=operator.go:1203 component=prometheusoperator msg="sync prometheus" key=monitoring/k8s
 ```
+
+## Portforwarding
 ```
 kubectl --namespace default port-forward svc/cb-example 8091 &
 kubectl --namespace monitoring port-forward svc/prometheus-k8s 9090 &
@@ -171,16 +145,5 @@ kubectl --namespace monitoring port-forward svc/node-exporter 9100 &
 kubectl --namespace default port-forward svc/couchbase-metrics 9091 &
 ```
 
-
-```
-error: unable to listen on any of the requested ports: [{9091 9091}]
-```
-
-Get "http://10.8.0.65:9091/metrics": dial tcp 10.8.0.65:9091: connect: connection refused
-
-https://github.com/prometheus/prometheus/issues/4419
-
-> We have debugged it offline and the problem was the network.
-Running the Prometheus container with "--network=host" solved the issue.
 
 
