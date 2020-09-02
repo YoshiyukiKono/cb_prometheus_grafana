@@ -1,11 +1,18 @@
 # AKS
 
-## Azure CLI
+## Install Azure CLI on Mac
+
+https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-macos?view=azure-cli-latest
 
 ```
 $ brew cask install powershell
 $ brew install azure-cli
 ```
+
+## Install AKS
+https://docs.couchbase.com/operator/current/tutorial-aks.html
+
+### Prerequisites
 ```
 $ az login
 $ az account list --output table
@@ -13,7 +20,8 @@ Name           CloudName    SubscriptionId                        State    IsDef
 -------------  -----------  ------------------------------------  -------  -----------
 240 - SE EMEA  AzureCloud   f855d6ab-cda7-485b-8360-7146658961e2  Enabled  True
 ```
-
+### AKS Setup
+Substitute <...>
 ```
 $ az group create --name <myResourceGroup> --location eastus
 ```
