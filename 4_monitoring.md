@@ -10,13 +10,13 @@ $ git clone https://github.com/prometheus-operator/kube-prometheus.git
 
 ## Create the Couchbase ServiceMonitor
 
-Create the following yaml files (refer to [yaml](./yaml) 
+Create the following yaml files (refer to [yaml](./yaml) folder).
 
 - kube-prometheus/manifests/couchbase-serviceMonitor.yaml
 
 ## Create the Couchbase Metrics Service
 
-Create the following yaml files (refer to [yaml](./yaml) 
+Create the following yaml files (refer to [yaml](./yaml) folder).
 
 - kube-prometheus/manifests/couchbase-service.yaml
 
