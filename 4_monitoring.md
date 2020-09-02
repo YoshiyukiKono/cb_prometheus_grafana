@@ -135,15 +135,6 @@ level=info ts=2020-09-01T04:25:59.956522937Z caller=operator.go:1203 component=p
 level=info ts=2020-09-01T04:26:01.761338331Z caller=operator.go:1203 component=prometheusoperator msg="sync prometheus" key=monitoring/k8s
 ```
 
-## Portforwarding
-```
-kubectl --namespace default port-forward svc/cb-example 8091 &
-kubectl --namespace monitoring port-forward svc/prometheus-k8s 9090 &
-kubectl --namespace monitoring port-forward svc/grafana 3000 &
-kubectl --namespace monitoring port-forward svc/alertmanager-main 9093 &
-kubectl --namespace monitoring port-forward svc/node-exporter 9100 &
-kubectl --namespace default port-forward svc/couchbase-metrics 9091 &
-```
 
 
 
